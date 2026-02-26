@@ -3,385 +3,518 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YDS için Çeviri Teknikleri ve Sınav Stratejileri</title>
+    <title>YDS Çeviri Teknikleri & Sonsuz Pratik</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' },
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
-        .card {
-            background-color: white;
-            border-radius: 0.75rem;
-            border: 1px solid #e5e7eb;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        }
-        .strategy-box {
-            background-color: #fefce8; /* yellow-50 */
-            border: 1px solid #fde047; /* yellow-300 */
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0.5rem;
-        }
-        .main-verb { color: #1d4ed8; font-weight: 700; }
-        .subject { color: #be123c; font-weight: 700; }
-        .sub-clause { color: #059669; font-style: italic; }
-        .main-clause { background-color: #eff6ff; padding: 2px 5px; border-radius: 4px; }
-        .wrong-translation { background-color: #fee2e2; color: #991b1b; padding: 0.5rem; border-radius: 0.25rem; }
-        .correct-translation { background-color: #dcfce7; color: #166534; padding: 0.5rem; border-radius: 0.25rem; }
+        .strategy-item { transition: all 0.3s ease; }
+        .strategy-item:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
         
-        .content-wrapper {
-            transition: max-height 0.5s ease-in-out;
-            overflow: hidden;
-            max-height: 0;
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .content-wrapper.open {
-            max-height: 4000px; /* İçeriğin sığacağı kadar büyük bir değer */
-        }
-        .chevron {
-            transition: transform 0.3s ease-in-out;
-        }
-        .chevron.open {
-            transform: rotate(90deg);
-        }
-        .loader {
-            border: 4px solid #f3f3f3;
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .loader-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3b82f6;
             border-radius: 50%;
-            border-top: 4px solid #3498db;
             width: 24px;
             height: 24px;
-            animation: spin 2s linear infinite;
+            animation: spin 1s linear infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="antialiased min-h-screen flex flex-col">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
-
-        <!-- Başlık -->
-        <header class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">YDS Çeviri Stratejileri Rehberi</h1>
-            <p class="mt-4 text-lg text-gray-600">Cümle yapısını anlayın, püf noktalarını öğrenin ve doğru çeviriye ulaşın.</p>
-        </header>
-
-        <!-- BÖLÜM 1: TEMEL PRENSİPLER -->
-        <section class="mb-12">
-            <h2 class="section-toggle text-3xl font-bold mb-2 border-l-4 border-gray-500 pl-4 flex justify-between items-center cursor-pointer" data-target="#bolum1-content">
-                <span>Bölüm 1: Temel Çeviri Prensipleri</span>
-                <svg class="chevron w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </h2>
-            <div id="bolum1-content" class="content-wrapper pl-6">
-                <div class="card mt-4">
-                    <p>İyi bir çeviri, kelimeleri tek tek çevirmek değil, cümlenin anlamını ve yapısını doğru bir şekilde Türkçe'ye aktarmaktır. Sınavda başarılı olmak için şu üç temel adımı izleyin:</p>
-                    <ol class="list-decimal list-inside mt-4 space-y-2">
-                        <li><strong>Önce Cümlenin İskeletini Bulun:</strong> Cümlenin ana öznesini (Subject) ve ana fiilini (Main Verb) tespit edin. Cümlenin temel anlamı bu ikili üzerindedir.</li>
-                        <li><strong>Yan Cümleleri ve Bağlaçları Çözümleyin:</strong> Ana cümleye ek bilgi veren yan cümlecikleri (`who`, `which`, `because`, `if` vb. ile başlayan) ve bunların ana cümleye nasıl bağlandığını anlayın.</li>
-                        <li><strong>Türkçe Cümle Kurallarına Uyun:</strong> İngilizce'deki S+V+O (Özne+Fiil+Nesne) yapısını, Türkçe'nin kurallı cümle yapısına (genellikle Özne+...Nesne...+Yüklem) doğru şekilde dönüştürün.</li>
-                    </ol>
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-primary-100 text-primary-600 rounded-lg">
+                    <i data-lucide="languages" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-800 tracking-tight">YDS Master</h1>
+                    <p class="text-xs text-slate-500 font-medium">Sonsuz Çeviri Soru Bankası</p>
                 </div>
             </div>
-        </section>
+            <div class="flex items-center gap-4">
+                <!-- Stats Counter -->
+                <div class="hidden md:flex flex-col items-end">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Çözülen Soru</span>
+                    <span class="text-lg font-bold text-primary-600 leading-none" id="solvedCounter">0</span>
+                </div>
+                <div class="hidden sm:flex items-center gap-2 text-sm text-slate-500 font-medium bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+                    <i data-lucide="infinity" class="w-4 h-4 text-primary-500"></i>
+                    Dinamik Soru Motoru
+                </div>
+            </div>
+        </div>
+    </header>
 
-        <!-- BÖLÜM 2: CÜMLE YAPISINI ÇÖZÜMLEME -->
-        <section class="mb-12">
-            <h2 class="section-toggle text-3xl font-bold mb-2 border-l-4 border-blue-500 pl-4 flex justify-between items-center cursor-pointer" data-target="#bolum2-content">
-                <span>Bölüm 2: Cümle Yapısını Çözümleme Sanatı</span>
-                <svg class="chevron w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </h2>
-            <div id="bolum2-content" class="content-wrapper pl-6">
-                <div class="card mt-4">
-                    <h3 class="font-semibold text-xl mb-4">Ana Cümle ve Ana Fiili Bulmak</h3>
-                     <div class="strategy-box">
-                        <p class="font-semibold">Örnek Analizi 1 (Adjective Clause):</p>
-                        <p class="mt-2 text-lg">"The scientist <em class="sub-clause">who won the Nobel Prize last year</em> <strong class="main-verb">visited</strong> our university."</p>
-                        <div class="mt-4">
-                            <p class="font-medium">❌ Yanlış Çeviri (Sık Yapılan Hata):</p>
-                            <p class="wrong-translation">"Geçen yıl Nobel Ödülü'nü kazanan bilim insanı üniversitemizi ziyaret etmişti."</p>
-                            <p class="text-sm mt-1"><strong>Neden Yanlış?</strong> Bu çevirideki "-mişti" eki, İngilizce'deki Past Perfect Tense (`had visited`) karşılığıdır. Orijinal cümlede ise Past Simple Tense (`visited`) kullanılmıştır. Bu, zaman kaymasına neden olan yaygın bir hatadır.</p>
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Strategies -->
+        <div class="lg:col-span-6 xl:col-span-5 space-y-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="book-open" class="text-primary-500"></i>
+                    Temel Çeviri Stratejileri
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm leading-relaxed">
+                    Sınavda uzun ve karmaşık cümleleri çözerken kelime kelime çevirmek yerine, cümlenin anatomisini anlamalısınız. İşte en çok hayat kurtaran 4 taktik:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Strategy 1 -->
+                <div class="glass-card rounded-xl p-5 strategy-item border-l-4 border-l-primary-500">
+                    <h3 class="font-semibold text-slate-800 flex items-center gap-2 text-lg">
+                        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-primary-100 text-primary-700 text-xs font-bold">1</span>
+                        İskeleti Bulun (Özne + Yüklem)
+                    </h3>
+                    <p class="text-slate-600 text-sm mt-2 mb-3">
+                        İngilizce cümlenin ana öznesini ve ana fiilini tespit edin. Seçeneklerde sadece bu ikilinin doğru eşleştiği şıkları arayarak seçenekleri anında 2'ye indirebilirsiniz.
+                    </p>
+                    <div class="bg-slate-50 rounded-lg p-3 text-sm border border-slate-100">
+                        <p><span class="text-rose-600 font-semibold">The scientist</span> who won the prize <span class="text-blue-600 font-semibold">visited</span> us.</p>
+                        <p class="mt-1 text-slate-700">Ödülü kazanan <span class="text-rose-600 font-semibold">bilim insanı</span> bizi <span class="text-blue-600 font-semibold">ziyaret etti</span>.</p>
+                    </div>
+                </div>
+
+                <!-- Strategy 2 -->
+                <div class="glass-card rounded-xl p-5 strategy-item border-l-4 border-l-amber-500">
+                    <h3 class="font-semibold text-slate-800 flex items-center gap-2 text-lg">
+                        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-700 text-xs font-bold">2</span>
+                        Zaman (Tense) Uyumuna Dikkat
+                    </h3>
+                    <p class="text-slate-600 text-sm mt-2 mb-3">
+                        Orijinal cümledeki zamanın Türkçe karşılığını arayın. Simple Past ("did") ile Past Perfect ("had done") ayrımı çeldiricilerin en sevdiği tuzaktır.
+                    </p>
+                    <div class="bg-slate-50 rounded-lg p-3 text-sm border border-slate-100 flex flex-col gap-2">
+                        <div class="flex items-start gap-2">
+                            <i data-lucide="x-circle" class="w-4 h-4 text-rose-500 mt-0.5 shrink-0"></i>
+                            <p class="text-slate-600"><span class="line-through">Ziyaret etmişti</span> (had visited karşılığıdır)</p>
                         </div>
-                        <div class="mt-4">
-                            <p class="font-medium">✅ Doğru Çeviri ve Analiz:</p>
-                            <p class="correct-translation">Geçen yıl Nobel Ödülü'nü kazanan bilim insanı, üniversitemizi ziyaret etti.</p>
-                             <p class="text-sm mt-1"><strong>Analiz:</strong> Cümlenin ana fiili `visited` (ziyaret etti), öznesi ise `The scientist who won...` (kazanan bilim insanı)'dır. Çeviri, bu temel Özne-Yüklem iskeletine ve doğru zamana sadık kalmalıdır. (Strateji 1)</p>
+                        <div class="flex items-start gap-2">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500 mt-0.5 shrink-0"></i>
+                            <p class="text-slate-800 font-medium">Ziyaret etti (visited karşılığıdır)</p>
                         </div>
                     </div>
-                     <div class="strategy-box">
-                        <p class="font-semibold">Örnek Analizi 2 (Adverb Clause & Bağlaç):</p>
-                        <p class="mt-2 text-lg">"<em class="sub-clause">Although the team played well</em>, <span class="subject">they</span> <strong class="main-verb">lost</strong> the match."</p>
-                         <div class="mt-4">
-                            <p class="font-medium">❌ Yanlış Çeviri (Sık Yapılan Hata):</p>
-                            <p class="wrong-translation">"Takım iyi oynadı ama maçı kaybetti."</p>
-                            <p class="text-sm mt-1"><strong>Neden Yanlış?</strong> `Although` bağlacı `but` (ama) ile yakın anlamlı olsa da, cümlenin yapısını değiştirir. `Although` ile başlayan yan cümle, ana cümlenin başına gelerek zarf görevi görür. "Ama" bağlacı ise iki ana cümleyi ortadan bağlar. Bu çeviri, orijinal cümlenin yapısını tam olarak yansıtmaz.</p>
-                        </div>
-                        <div class="mt-4">
-                            <p class="font-medium">✅ Doğru Çeviri ve Analiz:</p>
-                            <p class="correct-translation">Takım iyi oynamasına rağmen maçı kaybetti.</p>
-                             <p class="text-sm mt-1"><strong>Analiz:</strong> `Although` bağlacı "-e rağmen" anlamı katar ve yan cümlenin ana cümleye bir zıtlık koşulu eklemesini sağlar. Doğru çeviri, bu bağlacın anlamını tam olarak yansıtmalıdır. (Strateji 2)</p>
+                </div>
+
+                <!-- Strategy 3 -->
+                <div class="glass-card rounded-xl p-5 strategy-item border-l-4 border-l-emerald-500">
+                    <h3 class="font-semibold text-slate-800 flex items-center gap-2 text-lg">
+                        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">3</span>
+                        Aktif / Pasif Tuzağı
+                    </h3>
+                    <p class="text-slate-600 text-sm mt-2 mb-3">
+                        Cümle pasif (edilgen) ise, çevirisi de kesinlikle pasif olmalıdır (-ılmak, -ilmek). Özne işi yapan değil, işten etkilenendir.
+                    </p>
+                    <div class="bg-slate-50 rounded-lg p-3 text-sm border border-slate-100">
+                        <p class="font-mono text-xs text-slate-500 mb-1">A new policy HAS BEEN IMPLEMENTED.</p>
+                        <p class="text-slate-800">Yeni bir politika <span class="text-emerald-600 font-bold">uygulanmıştır.</span> (Uyguladı YANLIŞ)</p>
+                    </div>
+                </div>
+                
+                <!-- Strategy 4 -->
+                <div class="glass-card rounded-xl p-5 strategy-item border-l-4 border-l-purple-500">
+                    <h3 class="font-semibold text-slate-800 flex items-center gap-2 text-lg">
+                        <span class="flex items-center justify-center w-6 h-6 rounded-full bg-purple-100 text-purple-700 text-xs font-bold">4</span>
+                        Miktar ve Zarfları Atlamayın
+                    </h3>
+                    <p class="text-slate-600 text-sm mt-2 mb-3">
+                        <i>Only, almost, mainly, considerably, highly</i> gibi kısıtlayıcı veya miktar belirten kelimeler cümlenin bütün anlamını değiştirir. Çeviride mutlaka karşılığı olmalıdır.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Interactive Quiz Area -->
+        <div class="lg:col-span-6 xl:col-span-7 relative">
+            <div class="sticky top-24">
+                <div class="glass-card rounded-2xl overflow-hidden shadow-lg border border-slate-200/60 flex flex-col min-h-[500px]">
+                    
+                    <!-- App Header -->
+                    <div class="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-5 text-white flex justify-between items-center">
+                        <div>
+                            <h2 class="text-lg font-semibold flex items-center gap-2">
+                                <i data-lucide="bot" class="w-5 h-5 text-primary-400"></i>
+                                Akıllı Soru Simülatörü
+                            </h2>
+                            <p class="text-slate-300 text-xs mt-1" id="currentTopicLabel">Hazır mısınız?</p>
                         </div>
                     </div>
-                     <div class="strategy-box">
-                        <p class="font-semibold">Örnek Analizi 3 (Passive Voice):</p>
-                        <p class="mt-2 text-lg">"<span class="subject">A new policy</span> <strong class="main-verb">has been implemented</strong> <em class="sub-clause">to reduce pollution</em>."</p>
-                         <div class="mt-4">
-                            <p class="font-medium">❌ Yanlış Çeviri (Sık Yapılan Hata):</p>
-                            <p class="wrong-translation">"Yeni bir politika kirliliği azaltmak için uyguladı."</p>
-                            <p class="text-sm mt-1"><strong>Neden Yanlış?</strong> Bu çeviri, pasif (edilgen) olan `has been implemented` yapısını aktif (etken) bir fiilmiş gibi çevirmiştir. Politika bir şeyi uygulamaz, politika uygulanır. Bu, cümlenin anlamını tamamen bozar.</p>
+
+                    <!-- App Body -->
+                    <div class="p-6 flex-grow flex flex-col">
+                        
+                        <!-- Initial State / Controls -->
+                        <div id="controls-area" class="text-center pb-2 mt-auto mb-auto">
+                            <div class="mb-6">
+                                <div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i data-lucide="infinity" class="w-8 h-8 text-primary-600"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-slate-800 mb-2">Sonsuz Soru Döngüsü</h3>
+                                <p class="text-slate-500 text-sm max-w-sm mx-auto">Yapay zeka her seferinde farklı bir akademik konu ve dilbilgisi kuralını birleştirerek <strong>benzersiz</strong>, daha önce hiç sorulmamış bir çeviri sorusu üretir.</p>
+                            </div>
+
+                            <button id="generateBtn" class="w-full max-w-md mx-auto bg-primary-600 hover:bg-primary-700 text-white font-medium py-3.5 px-4 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group">
+                                <i data-lucide="zap" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                                <span id="generateBtnText">İlk Soruyu Üret</span>
+                                <div id="btnSpinner" class="loader-spinner hidden ml-2"></div>
+                            </button>
                         </div>
-                        <div class="mt-4">
-                            <p class="font-medium">✅ Doğru Çeviri ve Analiz:</p>
-                            <p class="correct-translation">Kirliliği azaltmak için yeni bir politika uygulanmıştır.</p>
-                             <p class="text-sm mt-1"><strong>Analiz:</strong> `has been implemented` yapısı pasif olduğu için Türkçe'ye "-mıştır, -ilmiştir" gibi edilgenlik ekleriyle çevrilmelidir. Eylemi yapan değil, eylemden etkilenen (politika) öznedir. (Strateji 3)</p>
+
+                        <!-- Error State -->
+                        <div id="error-alert" class="hidden mt-4 bg-rose-50 text-rose-700 p-4 rounded-xl border border-rose-200 text-sm flex items-start gap-3 fade-in">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 shrink-0 mt-0.5"></i>
+                            <div>
+                                <strong class="block font-semibold">Bağlantı Hatası</strong>
+                                <span id="error-msg">Soru üretilirken bir sorun oluştu. Lütfen tekrar deneyin.</span>
+                            </div>
                         </div>
-                    </div>
-                     <div class="strategy-box">
-                        <p class="font-semibold">Örnek Analizi 4 (Miktar İfadesi):</p>
-                        <p class="mt-2 text-lg">"<span class="subject">Only a few students</span> <em class="sub-clause">who took the advanced course</em> <strong class="main-verb">understood</strong> the professor's lecture."</p>
-                        <div class="mt-4">
-                            <p class="font-medium">❌ Yanlış Çeviri (Sık Yapılan Hata):</p>
-                            <p class="wrong-translation">"İleri seviye dersi alan az sayıda öğrenci profesörün dersini anladı."</p>
-                            <p class="text-sm mt-1"><strong>Neden Yanlış?</strong> Bu çeviri doğruya yakın olsa da, cümlenin anlamını kısıtlayan ve vurgulayan `Only` (sadece) kelimesini atlamıştır. Sınavlarda bu tür küçük ama önemli detaylar şıkları birbirinden ayırır.</p>
+
+                        <!-- Quiz Area (Hidden by default) -->
+                        <div id="quiz-container" class="hidden fade-in flex-grow flex flex-col">
+                            
+                            <!-- Question -->
+                            <div class="mb-6">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="bg-slate-100 text-slate-600 text-xs font-bold px-2.5 py-1 rounded-md uppercase tracking-wider border border-slate-200">İngilizce Cümle</span>
+                                </div>
+                                <p id="q-english" class="text-lg font-medium text-slate-800 leading-relaxed border-l-4 border-primary-400 pl-4 py-1 bg-slate-50/50 rounded-r-lg">
+                                    <!-- Sentence goes here -->
+                                </p>
+                            </div>
+
+                            <!-- Options -->
+                            <div class="space-y-3 mb-6" id="options-container">
+                                <!-- Options injected via JS -->
+                            </div>
+
+                            <!-- Feedback Area -->
+                            <div id="feedback-area" class="hidden mt-auto space-y-4 fade-in">
+                                <div class="p-4 rounded-xl border" id="feedback-box">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <i id="feedback-icon" class="w-5 h-5"></i>
+                                        <h4 id="feedback-title" class="font-bold text-sm uppercase tracking-wider"></h4>
+                                    </div>
+                                    <p id="correct-explanation" class="text-sm mt-3 text-slate-700 leading-relaxed bg-white/60 p-3 rounded-lg border border-slate-100/50 shadow-sm"></p>
+                                    <p id="incorrect-explanation" class="text-sm mt-2 text-slate-700 leading-relaxed bg-white/60 p-3 rounded-lg border border-slate-100/50 shadow-sm"></p>
+                                </div>
+                                
+                                <button id="nextBtn" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-3.5 px-4 rounded-xl transition-colors shadow-md flex items-center justify-center gap-2">
+                                    <span>Yeni Rastgele Soru Üret</span>
+                                    <i data-lucide="shuffle" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+
                         </div>
-                        <div class="mt-4">
-                            <p class="font-medium">✅ Doğru Çeviri ve Analiz:</p>
-                            <p class="correct-translation">İleri seviye dersi alan sadece birkaç öğrenci profesörün dersini anladı.</p>
-                             <p class="text-sm mt-1"><strong>Analiz:</strong> `Only a few` ifadesi "az sayıda" değil, "sadece birkaç" olarak daha kesin bir anlam taşır. Çeviride bu kısıtlayıcı ifadenin tam karşılığı verilmelidir. (Strateji 4)</p>
-                        </div>
-                    </div>
-                     <div class="strategy-box">
-                        <p class="font-semibold">Örnek Analizi 5 (Noun Clause):</p>
-                        <p class="mt-2 text-lg">"<span class="subject">The committee</span> <strong class="main-verb">announced</strong> <em class="sub-clause">that the project would be delayed</em>."</p>
-                        <div class="mt-4">
-                            <p class="font-medium">❌ Yanlış Çeviri (Sık Yapılan Hata):</p>
-                            <p class="wrong-translation">"Projenin erteleneceği komite tarafından duyuruldu."</p>
-                            <p class="text-sm mt-1"><strong>Neden Yanlış?</strong> Orijinal cümle aktif bir yapıdadır (`The committee announced...`). Bu çeviri ise cümleyi pasif hale getirmiştir (`...duyuruldu`). Bu, cümlenin öznesini ve vurgusunu değiştirir.</p>
-                        </div>
-                        <div class="mt-4">
-                            <p class="font-medium">✅ Doğru Çeviri ve Analiz:</p>
-                            <p class="correct-translation">Komite, projenin erteleneceğini duyurdu.</p>
-                             <p class="text-sm mt-1"><strong>Analiz:</strong> Cümlenin ana öznesi `The committee` ve ana fiili `announced` olduğu için çeviri bu aktif yapıyı korumalıdır. `that...` ile başlayan Noun Clause ise cümlenin nesnesidir. (Strateji 1 & 3)</p>
-                        </div>
-                    </div>
-                     <div class="strategy-box">
-                        <p class="font-semibold">Örnek Analizi 6 (Karmaşık Yapı):</p>
-                        <p class="mt-2 text-lg">"<span class="subject">Many experts</span> <strong class="main-verb">believe</strong> <em class="sub-clause">that the new regulations, which were introduced to protect the environment, will also boost the economy.</em>"</p>
-                        <div class="mt-4">
-                            <p class="font-medium">❌ Yanlış Çeviri (Sık Yapılan Hata):</p>
-                            <p class="wrong-translation">"Birçok uzman, yeni düzenlemelerin ekonomiyi de canlandıracağına ve çevreyi korumak için getirildiğine inanıyor."</p>
-                            <p class="text-sm mt-1"><strong>Neden Yanlış?</strong> Bu çeviri, iç içe geçmiş iki yan cümleyi sanki aynı seviyedeymiş gibi "ve" bağlacıyla bağlamıştır. Oysa `which...` ile başlayan kısım, `that...` ile başlayan cümlenin içindeki "regulations" kelimesini niteleyen bir ara bilgidir.</p>
-                        </div>
-                        <div class="mt-4">
-                            <p class="font-medium">✅ Doğru Çeviri ve Analiz:</p>
-                            <p class="correct-translation">Birçok uzman, çevreyi korumak için getirilen yeni düzenlemelerin ekonomiyi de canlandıracağına inanıyor.</p>
-                             <p class="text-sm mt-1"><strong>Analiz:</strong> `which...` ile başlayan Adjective Clause, nitelediği isim olan "yeni düzenlemeler" ifadesinin hemen arkasına "-an/-en" ekiyle eklenmelidir. Bu, cümlenin doğru ve akıcı olmasını sağlar.</p>
-                        </div>
+
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- BÖLÜM 3: SINAV STRATEJİLERİ -->
-        <section class="mb-12">
-            <h2 class="section-toggle text-3xl font-bold mb-2 border-l-4 border-green-500 pl-4 flex justify-between items-center cursor-pointer" data-target="#bolum3-content">
-                <span>Bölüm 3: YDS için Çeviri Püf Noktaları</span>
-                <svg class="chevron w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </h2>
-            <div id="bolum3-content" class="content-wrapper pl-6">
-                <div class="strategy-box mt-4">
-                    <h3 class="font-semibold text-lg mb-2">1. Özne ve Yüklem Eşleştirmesi Yapın</h3>
-                    <p>İngilizce cümlenin öznesini ve ana fiilini bulun. Sonra seçeneklerde bu özne ve yüklemin doğru çevrildiği şıkkı arayın. Bu yöntem, seçeneklerin çoğunu elemenizi sağlar.</p>
-                </div>
-                <div class="strategy-box">
-                    <h3 class="font-semibold text-lg mb-2">2. Bağlaçların Karşılığını Doğru Bulun</h3>
-                    <p>`Although` -> "-e rağmen", `Since` -> "-dığı için / -den beri", `Unless` -> "-medikçe" gibi bağlaçların Türkçe karşılıklarını doğru içeren seçeneğe odaklanın.</p>
-                </div>
-                <div class="strategy-box">
-                    <h3 class="font-semibold text-lg mb-2">3. Pasif (Passive) ve Aktif (Active) Ayrımına Dikkat Edin</h3>
-                    <p>İngilizce cümledeki `is done`, `was built`, `have been seen` gibi pasif yapılar, Türkçe'ye de "-ılmak, -ilmek" gibi edilgenlik ekleriyle çevrilmelidir. Aktif bir cümlenin çevirisi pasif olamaz.</p>
-                </div>
-                 <div class="strategy-box">
-                    <h3 class="font-semibold text-lg mb-2">4. Miktar ve Sıfat İfadelerini Gözden Kaçırmayın</h3>
-                    <p>`Some`, `many`, `more`, `the most`, `only`, `especially` gibi kelimeler cümlenin anlamını değiştirir. Çeviride bu kelimelerin karşılığının bulunduğundan emin olun.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- BÖLÜM 4: GEMINI İLE PRATİK -->
-        <section>
-            <h2 class="section-toggle text-3xl font-bold mb-2 border-l-4 border-indigo-500 pl-4 flex justify-between items-center cursor-pointer" data-target="#bolum4-content">
-                <span>✨ Bölüm 4: Gemini ile Çeviri Pratiği</span>
-                <svg class="chevron w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </h2>
-            <div id="bolum4-content" class="content-wrapper pl-6">
-                <div class="card mt-4">
-                    <p class="text-center text-gray-700 mb-4">Aşağıdaki butona basarak yeni bir çeviri sorusu oluşturun. Verilen İngilizce cümlenin hangi Türkçe çevirisinin doğru olduğunu seçin ve anında geri bildirim alın.</p>
-                    <button id="getNewQuestionBtn" class="w-full bg-yellow-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 flex items-center justify-center mb-4">
-                        Yeni Soru Getir
-                    </button>
-                    <div id="quizLoader" class="hidden mx-auto loader"></div>
-                    <div id="quiz-area" class="hidden">
-                        <div class="mb-4">
-                            <p class="text-sm font-medium text-gray-500">İngilizce Cümle:</p>
-                            <p id="englishSentence" class="text-lg p-3 bg-gray-100 rounded-md"></p>
-                        </div>
-                        <div id="translationOptions" class="space-y-4">
-                            <!-- Çeviri seçenekleri buraya gelecek -->
-                        </div>
-                    </div>
-                    <div id="evaluationResult" class="mt-6"></div>
-                </div>
-            </div>
-        </section>
-    </div>
+        </div>
+    </main>
 
     <script>
-        // Accordion functionality
-        const toggles = document.querySelectorAll('.section-toggle');
-        toggles.forEach(toggle => {
-            toggle.addEventListener('click', () => {
-                const targetId = toggle.dataset.target;
-                const targetContent = document.querySelector(targetId);
-                const chevron = toggle.querySelector('.chevron');
-                const isOpen = targetContent.classList.contains('open');
-                document.querySelectorAll('.content-wrapper.open').forEach(openContent => {
-                    if (openContent !== targetContent) {
-                        openContent.classList.remove('open');
-                        document.querySelector(`[data-target="#${openContent.id}"] .chevron`).classList.remove('open');
-                    }
-                });
-                if (!isOpen) {
-                    targetContent.classList.add('open');
-                    chevron.classList.add('open');
-                }
-            });
-        });
+        // Initialize Lucide Icons
+        lucide.createIcons();
 
-        // --- GEMINI API ORTAK FONKSİYONU ---
-        async function callGemini(prompt, generationConfig, retries = 3, delay = 1000) {
-            const apiKey = "AIzaSyAuFtUiTGRQPMPlOXfcLr_tO--VQwLZwZE";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-            const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig };
+        // Constants & DOM Elements
+        const apiKey = ""; // Managed by Canvas environment
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        
+        const btnGenerate = document.getElementById('generateBtn');
+        const btnText = document.getElementById('generateBtnText');
+        const btnSpinner = document.getElementById('btnSpinner');
+        const errorAlert = document.getElementById('error-alert');
+        const quizContainer = document.getElementById('quiz-container');
+        const optionsContainer = document.getElementById('options-container');
+        const englishText = document.getElementById('q-english');
+        const feedbackArea = document.getElementById('feedback-area');
+        const nextBtn = document.getElementById('nextBtn');
+        const controlsArea = document.getElementById('controls-area');
+        const solvedCounterEl = document.getElementById('solvedCounter');
+        const currentTopicLabel = document.getElementById('currentTopicLabel');
+        
+        let currentQuizData = null;
+        let isGenerating = false;
+        let solvedCount = 0;
+
+        // --- INFINITE QUESTION BANK MATRICES ---
+        // YDS Topics
+        const ydsTopics = [
+            "Tıp ve Halk Sağlığı (Medicine & Public Health)",
+            "Uzay ve Astronomi (Space & Astronomy)",
+            "Tarih ve Antik Uygarlıklar (History & Ancient Civilizations)",
+            "Küresel Ekonomi ve Finans (Global Economy & Finance)",
+            "Çevre Kirliliği ve İklim Değişikliği (Pollution & Climate Change)",
+            "Psikoloji ve İnsan Davranışı (Psychology & Human Behavior)",
+            "Yapay Zeka ve Robotik (Artificial Intelligence & Robotics)",
+            "Sosyoloji ve Demografi (Sociology & Demographics)",
+            "Eğitim Sistemleri ve Öğrenme (Educational Systems & Learning)",
+            "Biyoloji ve Genetik Mühendisliği (Biology & Genetic Engineering)",
+            "Sanat Tarihi ve Edebiyat (Art History & Literature)",
+            "Jeoloji ve Depremler (Geology & Earthquakes)",
+            "Uluslararası İlişkiler (International Relations)",
+            "Tarım ve Sürdürülebilirlik (Agriculture & Sustainability)",
+            "Antropoloji ve İnsan Evrimi (Anthropology & Human Evolution)"
+        ];
+
+        // YDS Grammar Focus Areas
+        const grammarFocus = [
+            "Relative Clauses (Sıfat Cümlecikleri - who, which, that)",
+            "Noun Clauses (İsim Cümlecikleri - that, whether, question words)",
+            "Passive Voice (Edilgen Yapı, özellikle present perfect veya past perfect passive)",
+            "Conditionals (If Cümlecikleri - Mixed tipler dahil)",
+            "Participles / Reduction (Kısaltmalar - Ving, V3, having V3)",
+            "Conjunctions of Contrast (Zıtlık Bağlaçları - Although, Even though, Despite)",
+            "Conjunctions of Cause/Effect (Sebep/Sonuç Bağlaçları - Because, Due to, Therefore)",
+            "Infinitive/Gerund structures (Fiilimsi Yapıları)",
+            "Complex Quantifiers (Karmaşık Miktar Belirleyiciler - only a few of which, much of etc.)"
+        ];
+
+        // Structured Prompt Setup
+        const systemPrompt = `You are an expert YDS (Foreign Language Exam in Turkey) English instructor. 
+        Your task is to generate a challenging, academic-level English sentence based on the specific TOPIC and GRAMMAR requested, and provide two Turkish translations.
+        One translation MUST be perfectly correct.
+        The other translation MUST be incorrect but plausible, containing a very common student mistake (e.g., ignoring a passive voice, mistranslating a conjunction like 'although' or 'since', or messing up the tense).
+        You must also provide detailed explanations in Turkish for why the correct one is right, and why the incorrect one is wrong (pointing out the specific trap).`;
+
+        const generationConfig = {
+            responseMimeType: "application/json",
+            responseSchema: {
+                type: "OBJECT",
+                properties: {
+                    english_sentence: { type: "STRING", description: "A complex, academic English sentence (YDS level)." },
+                    correct_translation: { type: "STRING", description: "The flawless Turkish translation." },
+                    incorrect_translation: { type: "STRING", description: "A plausible but grammatically or semantically flawed Turkish translation." },
+                    correct_explanation_tr: { type: "STRING", description: "Turkish explanation of why this translation is structurally correct." },
+                    incorrect_explanation_tr: { type: "STRING", description: "Turkish explanation pointing out the specific trap/error in the incorrect translation." }
+                },
+                required: ["english_sentence", "correct_translation", "incorrect_translation", "correct_explanation_tr", "incorrect_explanation_tr"]
+            }
+        };
+
+        // Utility: Exponential Backoff Fetch
+        async function fetchWithBackoff(payload, retries = 5) {
+            let delay = 1000;
             for (let i = 0; i < retries; i++) {
                 try {
-                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    const result = await response.json();
-                    if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts[0]) {
-                        return JSON.parse(result.candidates[0].content.parts[0].text);
-                    } else { throw new Error('Invalid response structure from API'); }
-                } catch (error) {
-                    if (i === retries - 1) throw error;
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+                    
+                    const data = await response.json();
+                    if (data.candidates && data.candidates[0].content.parts[0].text) {
+                        return JSON.parse(data.candidates[0].content.parts[0].text);
+                    } else {
+                        throw new Error('Invalid API response structure');
+                    }
+                } catch (err) {
+                    if (i === retries - 1) throw err;
                     await new Promise(res => setTimeout(res, delay));
                     delay *= 2;
                 }
             }
         }
 
-        // --- BÖLÜM 4: DOĞRU ÇEVİRİYİ BUL SCRIPT ---
-        const getNewQuestionBtn = document.getElementById('getNewQuestionBtn');
-        const quizLoader = document.getElementById('quizLoader');
-        const quizArea = document.getElementById('quiz-area');
-        const englishSentenceEl = document.getElementById('englishSentence');
-        const translationOptionsEl = document.getElementById('translationOptions');
-        const evaluationResultEl = document.getElementById('evaluationResult');
-        let quizData = {};
+        // Main Action: Generate Question
+        async function handleGenerate() {
+            if (isGenerating) return;
+            
+            // Randomly select Topic and Grammar to ensure infinite unique combinations
+            const randomTopic = ydsTopics[Math.floor(Math.random() * ydsTopics.length)];
+            const randomGrammar = grammarFocus[Math.floor(Math.random() * grammarFocus.length)];
+            
+            currentTopicLabel.innerHTML = `Konu: <strong>${randomTopic.split('(')[0]}</strong>`;
 
-        getNewQuestionBtn.addEventListener('click', getNewQuestion);
+            // UI Loading State
+            isGenerating = true;
+            btnText.textContent = "Soru Üretiliyor...";
+            btnSpinner.classList.remove('hidden');
+            btnGenerate.classList.add('opacity-80', 'cursor-not-allowed');
+            nextBtn.classList.add('opacity-80', 'cursor-wait');
+            nextBtn.disabled = true;
+            errorAlert.classList.add('hidden');
+            
+            if (solvedCount === 0) {
+                quizContainer.classList.add('hidden');
+            } else {
+                feedbackArea.classList.add('hidden');
+                optionsContainer.innerHTML = '<div class="text-center py-8 text-slate-400"><div class="loader-spinner !border-slate-200 !border-t-primary-500 mx-auto mb-3"></div>Yapay zeka benzersiz bir soru hazırlıyor...</div>';
+            }
 
-        async function getNewQuestion() {
-            quizLoader.classList.remove('hidden');
-            quizArea.classList.add('hidden');
-            evaluationResultEl.innerHTML = '';
-            getNewQuestionBtn.disabled = true;
+            const dynamicPrompt = `Create a completely unique YDS translation question.
+            CONTEXT THEME: ${randomTopic}
+            GRAMMATICAL FOCUS: Ensure the English sentence heavily features and tests: ${randomGrammar}
+            
+            Make the sentence long, academically rigorous, and ensure it has NOT been generated before. Create the correct and incorrect Turkish translations as instructed in the system prompt.`;
 
-            const prompt = `Create a translation quiz item for a YDS exam. Provide a complex English sentence, a correct Turkish translation, and an incorrect but plausible Turkish translation that contains a common error (e.g., wrong tense, wrong conjunction, active/passive mismatch). Also provide explanations in Turkish for both. Your response MUST be a single, valid JSON object with these exact keys: "english_sentence", "correct_translation", "incorrect_translation", "correct_explanation_tr", "incorrect_explanation_tr".`;
-            const generationConfig = {
-                responseMimeType: "application/json",
-                responseSchema: {
-                    type: "OBJECT",
-                    properties: {
-                        "english_sentence": { "type": "STRING" },
-                        "correct_translation": { "type": "STRING" },
-                        "incorrect_translation": { "type": "STRING" },
-                        "correct_explanation_tr": { "type": "STRING" },
-                        "incorrect_explanation_tr": { "type": "STRING" }
-                    },
-                    required: ["english_sentence", "correct_translation", "incorrect_translation", "correct_explanation_tr", "incorrect_explanation_tr"]
-                }
+            const payload = {
+                contents: [{ parts: [{ text: dynamicPrompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                generationConfig: generationConfig
             };
 
             try {
-                quizData = await callGemini(prompt, generationConfig);
-                englishSentenceEl.textContent = quizData.english_sentence;
-                
-                translationOptionsEl.innerHTML = '';
-                const options = [
-                    { text: quizData.correct_translation, correct: true },
-                    { text: quizData.incorrect_translation, correct: false }
-                ];
-                
-                options.sort(() => Math.random() - 0.5);
-
-                options.forEach(opt => {
-                    const button = document.createElement('button');
-                    button.textContent = opt.text;
-                    button.className = 'w-full p-3 border border-gray-300 rounded-md text-left hover:bg-gray-100 transition-colors';
-                    button.dataset.correct = opt.correct;
-                    button.addEventListener('click', checkTranslationAnswer);
-                    translationOptionsEl.appendChild(button);
-                });
-
-                quizArea.classList.remove('hidden');
+                const result = await fetchWithBackoff(payload);
+                currentQuizData = result;
+                renderQuiz(result);
+                controlsArea.classList.add('hidden'); // Hide main controls once quiz starts
             } catch (error) {
-                englishSentenceEl.textContent = "Soru oluşturulamadı, lütfen tekrar deneyin.";
-                quizArea.classList.remove('hidden');
+                console.error("Generation failed:", error);
+                errorAlert.classList.remove('hidden');
+                optionsContainer.innerHTML = '';
             } finally {
-                quizLoader.classList.add('hidden');
-                getNewQuestionBtn.disabled = false;
+                // UI Reset
+                isGenerating = false;
+                btnText.textContent = "İlk Soruyu Üret";
+                btnSpinner.classList.add('hidden');
+                btnGenerate.classList.remove('opacity-80', 'cursor-not-allowed');
+                nextBtn.classList.remove('opacity-80', 'cursor-wait');
+                nextBtn.disabled = false;
             }
         }
 
-        function checkTranslationAnswer(event) {
-            const selectedButton = event.target;
-            const isCorrect = selectedButton.dataset.correct === 'true';
+        // Render Quiz to DOM
+        function renderQuiz(data) {
+            englishText.textContent = data.english_sentence;
+            optionsContainer.innerHTML = '';
             
-            const allButtons = translationOptionsEl.querySelectorAll('button');
+            // Randomize options
+            const options = [
+                { text: data.correct_translation, isCorrect: true },
+                { text: data.incorrect_translation, isCorrect: false }
+            ].sort(() => Math.random() - 0.5);
+
+            options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border-2 border-slate-200 bg-white hover:border-primary-400 hover:bg-primary-50 transition-all font-medium text-slate-700 flex gap-3 group focus:outline-none";
+                
+                btn.innerHTML = `
+                    <div class="w-6 h-6 shrink-0 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold text-slate-500 group-hover:border-primary-500 group-hover:text-primary-600 transition-colors option-indicator mt-0.5">
+                        ${index === 0 ? 'A' : 'B'}
+                    </div>
+                    <span class="leading-relaxed">${opt.text}</span>
+                `;
+                
+                btn.onclick = () => handleAnswer(btn, opt.isCorrect, options);
+                optionsContainer.appendChild(btn);
+            });
+
+            quizContainer.classList.remove('hidden');
+        }
+
+        // Handle User Answer Selection
+        function handleAnswer(selectedBtn, isCorrect, allOptionsData) {
+            const allButtons = Array.from(optionsContainer.children);
+            
+            // Disable all buttons
             allButtons.forEach(btn => {
                 btn.disabled = true;
-                if (btn.dataset.correct === 'true') {
-                    btn.classList.add('bg-green-100', 'border-green-500');
+                btn.classList.remove('hover:border-primary-400', 'hover:bg-primary-50', 'cursor-pointer');
+            });
+
+            // Highlight Correct and Incorrect
+            allButtons.forEach((btn, index) => {
+                const isThisCorrect = allOptionsData[index].isCorrect;
+                const indicator = btn.querySelector('.option-indicator');
+                
+                if (isThisCorrect) {
+                    btn.classList.add('border-emerald-500', 'bg-emerald-50');
+                    indicator.classList.add('bg-emerald-500', 'border-emerald-500', 'text-white');
+                    indicator.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i>`;
+                } else if (btn === selectedBtn && !isCorrect) {
+                    // Selected wrong option
+                    btn.classList.add('border-rose-400', 'bg-rose-50');
+                    indicator.classList.add('bg-rose-500', 'border-rose-500', 'text-white');
+                    indicator.innerHTML = `<i data-lucide="x" class="w-4 h-4"></i>`;
                 } else {
-                    btn.classList.add('bg-red-100', 'border-red-500');
+                    btn.classList.add('opacity-50');
                 }
             });
 
-            let feedbackHtml = `
-                <div class="p-4 bg-green-50 border border-green-300 rounded-md mb-4">
-                    <h4 class="font-bold text-green-800">✅ DOĞRU ÇEVİRİ ANALİZİ</h4>
-                    <p class="mt-2 text-green-700">${quizData.correct_explanation_tr}</p>
-                </div>
-                <div class="p-4 bg-red-50 border border-red-300 rounded-md">
-                    <h4 class="font-bold text-red-800">❌ YANLIŞ ÇEVİRİ ANALİZİ</h4>
-                    <p class="mt-2 text-red-700">${quizData.incorrect_explanation_tr}</p>
-                </div>
-            `;
-            
-            if (isCorrect) {
-                selectedButton.classList.add('ring-2', 'ring-green-500');
-            } else {
-                selectedButton.classList.add('ring-2', 'ring-red-500');
-            }
+            lucide.createIcons(); // Refresh icons
 
-            evaluationResultEl.innerHTML = feedbackHtml;
+            // Update Counter
+            solvedCount++;
+            solvedCounterEl.textContent = solvedCount;
+            // Add a little pop animation to counter
+            solvedCounterEl.classList.add('scale-125', 'text-emerald-500');
+            setTimeout(() => {
+                solvedCounterEl.classList.remove('scale-125', 'text-emerald-500');
+            }, 300);
+
+            // Show Feedback
+            showFeedback(isCorrect);
         }
+
+        function showFeedback(isCorrect) {
+            const fBox = document.getElementById('feedback-box');
+            const fIcon = document.getElementById('feedback-icon');
+            const fTitle = document.getElementById('feedback-title');
+            
+            fBox.className = `p-5 rounded-xl border-2 ${isCorrect ? 'bg-emerald-50/50 border-emerald-200' : 'bg-rose-50/50 border-rose-200'}`;
+            fIcon.setAttribute('data-lucide', isCorrect ? 'check-circle' : 'x-circle');
+            fIcon.className = `w-6 h-6 ${isCorrect ? 'text-emerald-600' : 'text-rose-600'}`;
+            fTitle.textContent = isCorrect ? "Tebrikler, Doğru Çeviri!" : "Tuzağa Düştünüz!";
+            fTitle.className = `font-bold text-sm uppercase tracking-wider ${isCorrect ? 'text-emerald-700' : 'text-rose-700'}`;
+
+            document.getElementById('correct-explanation').innerHTML = `<strong class="text-emerald-700 block mb-1">✓ Neden Doğru?</strong> ${currentQuizData.correct_explanation_tr}`;
+            document.getElementById('incorrect-explanation').innerHTML = `<strong class="text-rose-700 block mb-1">✗ Çeldirici Tuzağı:</strong> ${currentQuizData.incorrect_explanation_tr}`;
+
+            lucide.createIcons();
+            feedbackArea.classList.remove('hidden');
+            
+            // Scroll to feedback
+            setTimeout(() => {
+                feedbackArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        // Event Listeners
+        btnGenerate.addEventListener('click', handleGenerate);
+        nextBtn.addEventListener('click', handleGenerate);
+
     </script>
 </body>
 </html>
